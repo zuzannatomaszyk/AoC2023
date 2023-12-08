@@ -14,22 +14,41 @@ const nodes = lines.slice(2).map(line => {
 
 const nodesMap = new Map(nodes);
 
-let stepsCount = 0;
-let zzzNotReached = true;
-let currentNode = nodesMap.get('AAA');
-
-console.log(nodes);
-
-while (zzzNotReached) {
-    for (let i = 0; i < instructions.length; i++) {
-        const instruction = instructions[i];
-        stepsCount++;
-        currentNode = nodesMap.get(currentNode.directions[instruction]);
-        if (currentNode.node === 'ZZZ') {
-            zzzNotReached = false;
-            break;
+function getStepsCount(start) {
+    let currentNode = start;
+    let stepsCount = 0;
+    let zzzNotReached = true;
+    while (zzzNotReached) {
+        for (let i = 0; i < instructions.length; i++) {
+            const instruction = instructions[i];
+            stepsCount++;
+            if (nodesMap.get(currentNode.directions[instruction]) === undefined) {
+                console.log(currentNode);
+            }
+            currentNode = nodesMap.get(currentNode.directions[instruction]);
+            // if (currentNode.node === 'ZZZ') 
+            if (currentNode.node.at(-1) === 'Z') {
+                zzzNotReached = false;
+                break;
+            }
         }
     }
+    return stepsCount;
 }
 
-console.log(stepsCount);
+//PART 1
+// console.log(getStepsCount(nodesMap.get('AAA')));
+
+const starts = [];
+nodes.forEach(node => {
+    if (node[0].at(-1) === 'A') {
+        starts.push(nodesMap.get(node[0]));
+    }
+})
+
+
+const cyclesLength = starts.map(start => {
+    return getStepsCount(start);
+});
+
+console.log(cyclesLength);
