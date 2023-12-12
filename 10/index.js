@@ -9,7 +9,7 @@ const directionsMap = new Map([
     ['J', [[-1, 0], [0, -1]]],
     ['7', [[1, 0], [0, -1]]],
     ['F', [[1, 0], [0, 1]]],
-    ['S', [[1, 0], [0, -1]]] //from input
+    ['S', [[1, 0], [0, 1]]] //from input
 ]);
 
 
@@ -97,7 +97,7 @@ function isInside(cycleSquare, Y, X) {
     let crossingBefore = 0;
     let crossingAfter = 0;
     cycleSquare[Y].forEach((element, id) => {
-        if (['|', 'L', 'J', '7', 'F', 'S'].includes(element)) {
+        if (['|', 'L', 'J'].includes(element)) {
             id < X ? crossingBefore++ : crossingAfter++;
         }
     })
@@ -112,7 +112,7 @@ function isInside(cycleSquare, Y, X) {
     crossingAfter = 0;
 
     cycleSquare.forEach((line, id) => {
-        if (['-', 'L', 'J', '7', 'F', 'S'].includes(line[X])) {
+        if (['-', 'J', '7'].includes(line[X])) {
             id < Y ? crossingBefore++ : crossingAfter++;
         }
     })
